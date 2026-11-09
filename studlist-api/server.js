@@ -1,4 +1,6 @@
 const express = require("express");
+const swaggerUi = require("swagger-ui-express");
+const openapi = require("./openapi");
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
@@ -7,6 +9,12 @@ app.use(express.json());
 
 const students = [{ id: 1, name: "Mohamed Sylla" }];
 let nextId = 2;
+
+app.get("/openai.json", (req, res) => {
+  res.json(openapi);
+});
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(openapi));
 
 app.get("/", (req, res) => {
   res.json({ message: "studlist API is running" });
